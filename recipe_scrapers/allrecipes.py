@@ -35,8 +35,8 @@ class AllRecipes(AbstractScraper):
             try:
                 array = ingredient.split(' ', 2)
                 ingredient_dict = {
-                    'amount': round(float(sum(Fraction(s) for s in array[0].split())), 3),
-                    'type': array[1],
+                    'quantity': round(float(sum(Fraction(s) for s in array[0].split())), 3),
+                    'measurement': array[1],
                     'title': array[2]
                 }
             except:
