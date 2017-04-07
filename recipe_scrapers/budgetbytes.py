@@ -35,8 +35,8 @@ class BudgetBytes(AbstractScraper):
             try:
                 array = ingredient.split(' ', 2)
                 ingredient_dict = {
-                    'amount': round(unicodedata.numeric(array[0]), 3),
-                    'type': array[1],
+                    'quantity': round(unicodedata.numeric(array[0]), 3),
+                    'measurement': array[1],
                     'title': array[2]
                 }
             except:
