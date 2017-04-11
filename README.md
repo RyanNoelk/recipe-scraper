@@ -5,7 +5,7 @@
 A simple web scraping tool for recipe sites I use in a project of mine that makes sense to live as
 a separate package.
 
-    pip install git+git://github.com/RyanNoelk/recipe-scraper.git@1.0.3
+    pip install git+git://github.com/RyanNoelk/recipe-scraper.git@1.0.4
 
 then:
 
