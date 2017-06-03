@@ -57,7 +57,7 @@ class BudgetBytes(AbstractScraper):
         ]
 
     def description(self):
-        li = self.soup.find('div', {'class': 'entry-content'}).findAll('p')
+        li = self.soup.find('article', {'class': 'post'}).findAll('p')
         return li[0].get_text()
 
     def image(self):
