@@ -10,7 +10,7 @@ class BudgetBytes(AbstractScraper):
 
     @classmethod
     def host(self):
-        return 'budgetbytes.com'
+        return 'pamperedchef.com'
 
     def title(self):
         return self.soup.find('h1').get_text()
@@ -57,8 +57,8 @@ class BudgetBytes(AbstractScraper):
         ]
 
     def description(self):
-        li = self.soup.find('article', {'class': 'post'}).findAll('p')
+        li = self.soup.find('div', {'id': 'rpDirections'}).findAll('p')
         return li[0].get_text()
 
     def image(self):
-        return self.soup.find('img', {'itemprop': 'image'})["src"]
+        return self.soup.find('img', {'id': 'bigpic'})["src"]

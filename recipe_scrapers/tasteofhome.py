@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import unicodedata
+from fractions import Fraction
 from ._abstract import AbstractScraper
 from ._utils import get_minutes, normalize_string
 
 
-class BudgetBytes(AbstractScraper):
+class AllRecipes(AbstractScraper):
 
     @classmethod
     def host(self):
-        return 'budgetbytes.com'
+        return 'tasteofhome.com'
 
     def title(self):
         return self.soup.find('h1').get_text()
@@ -18,24 +18,24 @@ class BudgetBytes(AbstractScraper):
     def total_time(self):
         return {
             'prep-time': get_minutes(self.soup.find('time', {'itemprop': 'prepTime'})),
-            'cook-time': get_minutes(self.soup.find('time', {'itemprop': 'cookTime'}))
+            'cook-time': get_minutes(self.soup.find('time', {'itemprop': 'totalTime'}))
         }
 
     def servings(self):
-        return self.soup.find('span', {'itemprop': 'recipeYield'}).get_text()
+        return self.soup.find('span', {'ng-bind': 'adjustedServings'}).get_text()
 
     def ingredients(self):
-        ingredients_html = self.soup.findAll('li', {'class': 'ingredient'})
+
+        ingredients_html = self.soup.findAll('span', {'class': "recipe-ingred_txt added"})
         ingredients = []
 
         for ingredient in ingredients_html:
             ingredient = normalize_string(ingredient.get_text())
-            ingredient = ingredient.split(' $', 1)[0]
 
             try:
                 array = ingredient.split(' ', 2)
                 ingredient_dict = {
-                    'quantity': round(unicodedata.numeric(array[0]), 3),
+                    'quantity': round(float(sum(Fraction(s) for s in array[0].split())), 3),
                     'measurement': array[1],
                     'title': array[2]
                 }
@@ -45,11 +45,10 @@ class BudgetBytes(AbstractScraper):
                 }
 
             ingredients.append(ingredient_dict)
-
         return ingredients
 
     def instructions(self):
-        instructions_html = self.soup.findAll('li', {'class': 'instruction'})
+        instructions_html = self.soup.findAll('span', {'class': 'recipe-directions__list--item'})
 
         return [
             normalize_string(instruction.get_text())
@@ -57,8 +56,9 @@ class BudgetBytes(AbstractScraper):
         ]
 
     def description(self):
-        li = self.soup.find('article', {'class': 'post'}).findAll('p')
-        return li[0].get_text()
+        return normalize_string(
+            self.soup.find('div', {'class': 'submitter__description'}).get_text()
+        )
 
     def image(self):
-        return self.soup.find('img', {'itemprop': 'image'})["src"]
+        return self.soup.find('img', {'class': 'rec-photo'})["src"]

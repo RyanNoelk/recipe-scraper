@@ -5,7 +5,7 @@
 A simple web scraping tool for recipe sites I use in a project of mine that makes sense to live as
 a separate package.
 
-    pip install git+git://github.com/RyanNoelk/recipe-scraper.git@1.0.3
+    pip install git+git://github.com/RyanNoelk/recipe-scraper.git@1.0.5
 
 then:
 
@@ -34,16 +34,6 @@ If you are programmer PRs with fixes are warmly welcomed and acknowledged with a
 ### Scrapers available for:
 
 - [http://allrecipes.com/](http://allrecipes.com/)
-- [http://bonappetit.com/](http://bonappetit.com/)
-- [http://cookstr.com/](http://cookstr.com/)
-- [http://epicurious.com/](http://epicurious.com/)
-- [http://finedininglovers.com/](https://www.finedininglovers.com/)
-- [http://foodrepublic.com/](http://foodrepublic.com)
-- [http://jamieoliver.com/](http://www.jamieoliver.com/)
-- [http://mybakingaddiction.com/](http://mybakingaddiction.com/)
-- [http://simplyrecipes.com/](http://www.simplyrecipes.com)
-- [http://steamykitchen.com/](http://steamykitchen.com/)
-- [http://tastykitchen.com/](http://tastykitchen.com/)
-- [http://thevintagemixer.com/](http://www.thevintagemixer.com/)
-- [http://twopeasandtheirpod.com/](http://twopeasandtheirpod.com/)
-- [http://whatsgabycooking.com/](http://whatsgabycooking.com/)
+- [http://budgetbytes.com/](http://budgetbytes.com/)
+- [http://pamperedchef.com/](http://pamperedchef.com/)
+- [http://tasteofhome.com/](http://tasteofhome.com/)
