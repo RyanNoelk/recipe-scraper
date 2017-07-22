@@ -16,19 +16,27 @@ class BudgetBytesv2(AbstractScraper):
         return self.soup.find('h1').get_text()
 
     def total_time(self):
-        return {
-            'prep-time': self.soup.find(
+        try:
+            prep = self.soup.find(
                 'span',
                 {'class': 'wprm-recipe-prep_time-minutes'}
-            ).get_text(),
-            'cook-time': self.soup.find(
+            ).get_text()
+        except AttributeError:
+            prep = '0'
+        try:
+            cook = self.soup.find(
                 'span',
                 {'class': 'wprm-recipe-cook_time-minutes'}
             ).get_text()
-        }
+        except AttributeError:
+            cook = '0'
+        return {prep, cook}
 
     def servings(self):
-        return self.soup.find('span', {'itemprop': 'recipeYield'}).get_text().split(' ', 1)[0]
+        try:
+            return self.soup.find('span', {'itemprop': 'recipeYield'}).get_text().split(' ', 1)[0]
+        except:
+            return ''
 
     def ingredients(self):
         ingredients_html = self.soup.findAll('li', {'class': 'wprm-recipe-ingredient'})
@@ -52,14 +60,14 @@ class BudgetBytesv2(AbstractScraper):
                 }
             except AttributeError:
                 ingredient_dict = {
-                    'title': ingredient.find(
+                    'title': normalize_string(ingredient.find(
                         'span',
                         {'class': 'wprm-recipe-ingredient-name'}
-                    ).get_text()
+                    ).get_text())
                 }
             except:
                 ingredient_dict = {
-                    'title': ingredient
+                    'title': normalize_string(ingredient.get_text())
                 }
 
             ingredients.append(ingredient_dict)
@@ -75,8 +83,14 @@ class BudgetBytesv2(AbstractScraper):
         ]
 
     def description(self):
-        li = self.soup.find('article', {'class': 'post'}).findAll('p')
-        return li[0].get_text()
+        try:
+            li = self.soup.find('article', {'class': 'post'}).findAll('p')
+            return li[0].get_text()
+        except:
+            return ''
 
     def image(self):
-        return self.soup.find('img', {'class': 'alignnone'})["src"]
+        try:
+            return self.soup.find('img', {'class': 'alignnone'})["src"]
+        except:
+            return ''
