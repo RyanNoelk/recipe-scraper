@@ -22,10 +22,13 @@ class BudgetBytes(AbstractScraper):
         }
 
     def servings(self):
-        return self.soup.find('span', {'itemprop': 'recipeYield'}).get_text()
+        try:
+            return self.soup.find('span', {'itemprop': 'recipeYield'}).get_text()
+        except:
+            return ''
 
     def ingredients(self):
-        ingredients_html = self.soup.findAll('li', {'class': 'ingredient'})
+        ingredients_html = self.soup.findAll('li', {'class': 'wprm-recipe-ingredient'})
         ingredients = []
 
         for ingredient in ingredients_html:
@@ -49,7 +52,7 @@ class BudgetBytes(AbstractScraper):
         return ingredients
 
     def instructions(self):
-        instructions_html = self.soup.findAll('li', {'class': 'instruction'})
+        instructions_html = self.soup.findAll('li', {'class': 'wprm-recipe-instruction'})
 
         return [
             normalize_string(instruction.get_text())
@@ -61,4 +64,7 @@ class BudgetBytes(AbstractScraper):
         return li[0].get_text()
 
     def image(self):
-        return self.soup.find('img', {'itemprop': 'image'})["src"]
+        try:
+            return self.soup.find('img', {'itemprop': 'image'})["src"]
+        except:
+            return ''
